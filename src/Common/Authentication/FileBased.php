@@ -28,7 +28,7 @@ class FileBased implements IAuthentication
     {
         $this->user = $username;
         $this->userpass = $password;
-        $loginfile = fopen("../src/Common/Authentication/testLogin.txt","r") or die("File not Found");
+        $loginfile = fopen("../src/Data/testLogin.txt","r") or die("File not Found");
         while(!feof($loginfile))
         {
             $test = explode(",",fgets($loginfile));
