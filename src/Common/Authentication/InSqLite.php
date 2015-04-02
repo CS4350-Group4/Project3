@@ -26,7 +26,7 @@ class InSqLite implements IAuthentication
         $dbh='';
         try
         {
-            $dbh = new PDO("sqlite:../src/Common/Authentication/sqliteDB");
+            $dbh = new PDO("sqlite:../src/Data/sqliteDB");
         }
         catch(PDOException $e)
         {
@@ -40,11 +40,12 @@ class InSqLite implements IAuthentication
             {
                 $results->closeCursor();
                 echo 'Login Successful for '.$username;
-                return;
+                return http_response_code(200);
             }
         }
         $results->closeCursor();
         echo 'Login Failed!';
+        return http_response_code(401);
     }
 
 
