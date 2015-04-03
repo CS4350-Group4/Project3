@@ -19,7 +19,7 @@ $app = new \Slim\Slim();
 //Webservice Landing page.
 $app->get('/', function()
 {
-
+	require_once realpath(__DIR__.DIRECTORY_SEPARATOR.'Views'.DIRECTORY_SEPARATOR.'LoginForm.html');
 });
 
 //End point to web authenticate user to our webservice.
