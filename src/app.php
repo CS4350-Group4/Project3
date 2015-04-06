@@ -25,7 +25,8 @@ $app->get('/', function()
 //End point to web authenticate user to our webservice.
 $app->post('/auth', function()
 {
-    new \Views\VerifyLogin();
+    $check = new \Common\Authentication\InSqLite();
+    $check->authenticate(htmlentities($_POST['username']),htmlentities($_POST['password']));
 });
 
 
@@ -46,15 +47,28 @@ $app->get('/api/access', function()
 });
 
 //Authentication point for our webservice
-$app->post('/api/auth', function()
+$app->post('/api/auth',  function() use($app)
 {
     $test = new \Common\Authentication\InSqLite();
-    $response = $test->authenticate(htmlentities($_POST['username']),htmlentities($_POST['password']));
-    return $response;
+    $response = 401;
+    //echo $_POST['accesskey'];
+    //if($test->verifyAccess("access987654321"))
+    //{
+        $response = $test->authenticate(htmlentities($_POST['username']), htmlentities($_POST['password']));
+    //}
+    if($response == 200)
+    {
+        return $app->response->status(200);
+    }
+    if($response == 401)
+    {
+        return $app->response->status(401);
+    }
+    return $app->response->status(500);
 });
 
 //Authentication point for twitter.... Needed or embedded function?
-$app->post('/api/twitter', function()
+$app->post('/api/twitter', function() use($app)
 {
     //TODO: code to access twitter.
 });
