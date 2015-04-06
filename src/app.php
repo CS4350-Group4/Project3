@@ -25,7 +25,8 @@ $app->get('/', function()
 //End point to web authenticate user to our webservice.
 $app->post('/auth', function()
 {
-    new \Views\VerifyLogin();
+    $check = new \Common\Authentication\InSqLite();
+	$check->authenticate(htmlentities($_POST['username']),htmlentities($_POST['password']));
 });
 
 
