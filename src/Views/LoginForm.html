@@ -3,16 +3,18 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Example Login Form</title>
+        <title>Project 3</title>
         <link rel="stylesheet" type="text/css" href="css\Style.css">
+		<script src="script.js"></script>
     </head>
     <body>
         <div align="center">
-            <form method="POST" action="/auth">
-                Username: <input class="textbox" type="text" name="username" size="15" /><br /><br />
-                Password: <input class="textbox" type="password" name="password" size="15" /><br />
-                <p><input class="button" type="submit" value="Login" /></p>
+            <form method="POST" action="/app.php">
+                Username: <input class="textbox" type="text" id="username" name="username"/><br /><br />
+                Password: <input class="textbox" type="password" id="password" name="password"/><br />
+                <p><input class="button" onClick="myFunction()" id="button" type="submit" value="Login" /></p><br /><br />
             </form>
+			<p id="message"></p>
         </div>
     </body>
 </html>
