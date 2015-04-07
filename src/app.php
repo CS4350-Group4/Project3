@@ -26,7 +26,17 @@ $app->get('/', function()
 $app->post('/auth', function()
 {
     $check = new \Common\Authentication\InSqLite();
-	$check->authenticate(htmlentities($_POST['username']),htmlentities($_POST['password']));
+    $check->authenticate(htmlentities($_POST['username']),htmlentities($_POST['password']));
+});
+
+$app->get('/profiles/:id', function()
+{
+    //TODO: create profile page "will need to be dynamic, fragments?"
+});
+
+$app->get('/register', function()
+{
+    require_once realpath(__DIR__.DIRECTORY_SEPARATOR.'Views'.DIRECTORY_SEPARATOR.'register.html');
 });
 
 
@@ -47,15 +57,53 @@ $app->get('/api/access', function()
 });
 
 //Authentication point for our webservice
-$app->post('/api/auth', function()
+$app->post('/api/auth',  function() use($app)
 {
+    $postusername=' ';
+    $postpassword=' ';
+    $postauthkey=' ';
+    
+    if($app->request->params('username'))
+    {
+        $postusername = $app->request->params('username');
+    }
+    if($app->request->params('password'))
+    {
+        $postpassword = $app->request->params('password');
+    }
+    if($app->request->params('accesskey'))
+    {
+        $postauthkey = $app->request->params('accesskey');
+    }
     $test = new \Common\Authentication\InSqLite();
-    $response = $test->authenticate(htmlentities($_POST['username']),htmlentities($_POST['password']));
-    return $response;
+    $response = 401;
+    //$testing = htmlentities($_POST['accesskey']);
+    if($test->verifyAccess($postauthkey))
+    {
+        $response = $test->authenticate($postusername,$postpassword);
+    }
+    if($response == 200)
+    {
+        $app->response->setStatus(200);
+        return json_encode($app->response->header("Profile: HTTP://localhost:8080/profiles/".$_POST['username'], 200));
+    }
+    if($response == 401)
+    {
+        $app->response->setStatus(401);
+        return json_encode($app->response->header("Need to register?: http://localhost:8080/register", 401));
+    }
+    $app->response->setStatus(500);
+    return json_encode($app->response->header("OOPS Something on our side failed", 500));
+});
+
+//registration service
+$app->post('/api/register', function()
+{
+    $register = new \Common\Authentication\InSqLite();
 });
 
 //Authentication point for twitter.... Needed or embedded function?
-$app->post('/api/twitter', function()
+$app->post('/api/twitter', function() use($app)
 {
     //TODO: code to access twitter.
 });
