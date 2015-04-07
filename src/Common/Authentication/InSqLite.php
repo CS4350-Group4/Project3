@@ -40,7 +40,7 @@ class InSqLite implements IAuthentication
     public function authenticate($username, $password)
     {
         //$dbh='';
-        //$responsecode = 401;
+        $this->responsecode = 401;
 
         $query ="Select username, password from users";
         $results = $this->dbh->query($query);
@@ -57,18 +57,29 @@ class InSqLite implements IAuthentication
         return $this->responsecode;
     }
 
+
+    public function registerUser($user, $pass)
+    {
+        $this->responsecode = 401;
+
+        $query ="insert into users(username,password)values(".$user.",".$pass.")";
+
+    }
+
     /**
      * Function verify access
      *
+     * @param string $keyCheck
+     * @return Boolean
      *
+     * @access public
      */
-    public function verifyAccess($accesskey)
+    public function verifyAccess($keyCheck)
     {
-        $query = "Select * from accesskeys where key ='".$accesskey."'";
-        echo $query;
+        $query = "Select * from accesskeys where key =\"".$keyCheck."\"";
         $results = $this->dbh->query($query);
-        echo $results->rowCount();
-        if($results->rowCount() > 0)
+        $check = $results->fetch(PDO::FETCH_ASSOC);
+        if($check['key'] == $keyCheck)
         {
             $results->closeCursor();
             return true;
