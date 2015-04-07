@@ -12,7 +12,7 @@ function myFunction() {
 	{
 		$.ajax({
 		type: "POST",
-		url: "/app.php",
+		url: "http://localhost:8080/api/auth",
 		data: dataString,
 		cache: false,
 		dataType:'JSON',

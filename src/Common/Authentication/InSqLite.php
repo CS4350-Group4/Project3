@@ -12,6 +12,22 @@ use PDO;
 
 class InSqLite implements IAuthentication
 {
+
+    protected $dbh;
+    protected $responsecode;
+
+    public function __construct()
+    {
+        $this->responsecode = 401;
+        try
+        {
+            $this->dbh = new PDO("sqlite:../src/Data/sqliteDB");
+        }
+        catch(PDOException $e)
+        {
+            $this->responsecode = 500;
+        }
+    }
     /**
      * Function authenticate
      *
@@ -23,30 +39,53 @@ class InSqLite implements IAuthentication
      */
     public function authenticate($username, $password)
     {
-        $dbh='';
-        try
-        {
-            $dbh = new PDO("sqlite:../src/Data/sqliteDB");
-        }
-        catch(PDOException $e)
-        {
-            echo $e->getMessage();
-        }
+        //$dbh='';
+        $this->responsecode = 401;
+
         $query ="Select username, password from users";
-        $results = $dbh->query($query);
+        $results = $this->dbh->query($query);
         while($row = $results->fetch(PDO::FETCH_ASSOC))
         {
             if($row["username"]=== $username && $row["password"] === $password)
             {
-                $results->closeCursor();
-                echo 'Login Successful for '.$username;
-                return http_response_code(200);
+                $this->responsecode = 200;
+                //echo 'Login Successful for '.$username;
             }
         }
         $results->closeCursor();
-        echo 'Login Failed!';
-        return http_response_code(401);
+        //echo 'Login Failed!';
+        return $this->responsecode;
     }
 
+
+    public function registerUser($user, $pass)
+    {
+        $this->responsecode = 401;
+
+        $query ="insert into users(username,password)values(".$user.",".$pass.")";
+
+    }
+
+    /**
+     * Function verify access
+     *
+     * @param string $keyCheck
+     * @return Boolean
+     *
+     * @access public
+     */
+    public function verifyAccess($keyCheck)
+    {
+        $query = "Select * from accesskeys where key =\"".$keyCheck."\"";
+        $results = $this->dbh->query($query);
+        $check = $results->fetch(PDO::FETCH_ASSOC);
+        if($check['key'] == $keyCheck)
+        {
+            $results->closeCursor();
+            return true;
+        }
+        $results->closeCursor();
+        return false;
+    }
 
 }
