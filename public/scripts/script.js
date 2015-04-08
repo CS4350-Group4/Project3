@@ -1,21 +1,21 @@
 function myFunction() {
-	
+
 	var username = $("#username").val();
 	var password = $("#password").val();
 	var dataString = 'username=' + username + '&password=' + password;
-	
-	if (username == '' || password == '') 
+
+	if (username == '' || password == '')
 	{
 		alert("Please Fill All Fields");
-	} 
-	else 
+	}
+	else
 	{
 		$.ajax({
-		type: "POST",
-		url: "http://localhost:8080/api/auth",
-		data: dataString,
-		cache: false,
-		dataType:'JSON',
+			type: "POST",
+			url: "http://localhost:8080/api/auth",
+			data: dataString,
+			cache: false,
+			dataType:'JSON',
 			statusCode:
 			{
 				// ok
