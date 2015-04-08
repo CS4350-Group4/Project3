@@ -22,11 +22,11 @@ function myFunction() {
 				200: function(){
 					//alert('access granted');
 					document.getElementById("message").innerHTML = "access granted";
-				}
+				},
 				// unauthorized
 				401: function(){
 					//alert('access denied')
-					document.getElementById("demo").innerHTML = "access denied";
+					document.getElementById("message").innerHTML = "access denied";
 					location.href = "/register.html"
 				}
 			}

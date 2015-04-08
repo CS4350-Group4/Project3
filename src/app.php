@@ -61,20 +61,28 @@ $app->post('/api/auth',  function() use($app)
 {
     $postusername=' ';
     $postpassword=' ';
-    $postauthkey=' ';
-    
-    if($app->request->params('username'))
+    $postauthkey='access987654321';
+    if(json_decode($body = $app->request->getBody()) != null)
     {
-        $postusername = $app->request->params('username');
+        $postusername = $body['username'];
+        $postpassword = $body['password'];
     }
-    if($app->request->params('password'))
+    else
     {
-        $postpassword = $app->request->params('password');
+        if($app->request->params('username'))
+        {
+            $postusername = $app->request->params('username');
+        }
+        if($app->request->params('password'))
+        {
+            $postpassword = $app->request->params('password');
+        }
+        if($app->request->params('accesskey'))
+        {
+            $postauthkey = $app->request->params('accesskey');
+        }
     }
-    if($app->request->params('accesskey'))
-    {
-        $postauthkey = $app->request->params('accesskey');
-    }
+
     $test = new \Common\Authentication\InSqLite();
     $response = 401;
     //$testing = htmlentities($_POST['accesskey']);
