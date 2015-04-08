@@ -4,26 +4,6 @@
         <meta charset="UTF-8">
         <title>Project 3</title>
         <link rel="stylesheet" type="text/css" href="css\Style.css">		
-	<script>
-	function show(str)
-	{
-		if (str.length==0) { 
-			document.getElementById("message").innerHTML="";
-			return;
-		} 
-		else 
-		{
-			var xmlhttp=new XMLHttpRequest();
-			xmlhttp.onreadystatechange=function() {
-				if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-					document.getElementById("message").innerHTML=xmlhttp.responseText;
-				}
-			}
-			xmlhttp.open("GET","/sqliteDB?username="+str,true);
-			xmlhttp.send();
-		}	    
-	}
-	</script>
     </head>
     <body>
         <div align="center">
@@ -33,7 +13,6 @@
                 Create Password: <input class="textbox" type="password" id="password" name="password" size="15" /><br />
                 <p><input class="button" type="submit" value="Register" /></p><br /><br />
             </form>
-			<p><span id="message"></span></p>
         </div>
     </body>
 </html>
