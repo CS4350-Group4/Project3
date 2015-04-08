@@ -7,6 +7,11 @@
         <link rel="stylesheet" type="text/css" href="css\Style.css">
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
         <script src="scripts/script.js"></script>
+        <script>
+            $(document).ready(function(){
+                $("#registerlink").hide();
+            });
+        </script>
     </head>
     <body>
         <div align="center">
@@ -14,6 +19,7 @@
                 Username: <input class="textbox" type="text" id="username" name="username"/><br /><br />
                 Password: <input class="textbox" type="password" id="password" name="password"/><br />
                 <p><input class="button" onclick="myFunction()" id="button" type="submit" value="Login" /></p><br /><br />
+                <a href="/register" id="registerlink">Register?</a>
 			<p id="message"></p>
         </div>
     </body>

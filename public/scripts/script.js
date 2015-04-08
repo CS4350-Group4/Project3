@@ -22,12 +22,13 @@ function myFunction() {
 				200: function(){
 					//alert('access granted');
 					document.getElementById("message").innerHTML = "access granted";
+					$("#registerlink").hide();
 				},
 				// unauthorized
 				401: function(){
 					//alert('access denied')
 					document.getElementById("message").innerHTML = "access denied";
-					location.href = "/register.html"
+					$("#registerlink").show();
 				}
 			}
 		});
