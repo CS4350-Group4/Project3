@@ -85,7 +85,6 @@ $app->post('/api/auth',  function() use($app)
 
     $test = new \Common\Authentication\InSqLite();
     $response = 401;
-    //$testing = htmlentities($_POST['accesskey']);
     if($test->verifyAccess($postauthkey))
     {
         $response = $test->authenticate($postusername,$postpassword);
